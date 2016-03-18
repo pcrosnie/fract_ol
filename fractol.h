@@ -6,7 +6,7 @@
 /*   By: pcrosnie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 13:25:31 by pcrosnie          #+#    #+#             */
-/*   Updated: 2016/03/18 11:08:12 by pcrosnie         ###   ########.fr       */
+/*   Updated: 2016/03/18 17:03:20 by pcrosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ typedef struct s_data
 	void *mlx;
 	void *win;
 	void *pict;
+	float cx;
+	float cy;
 	char *data_adrr;
 	int blue;
 	int red;
@@ -28,6 +30,7 @@ typedef struct s_data
 	int bits_per_pixel;
 	int size_line;
 	int endian;
+	int scale;
 }			t_data;
 
 #endif
