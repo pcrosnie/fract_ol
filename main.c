@@ -6,7 +6,7 @@
 /*   By: pcrosnie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 13:24:58 by pcrosnie          #+#    #+#             */
-/*   Updated: 2016/03/18 17:13:33 by pcrosnie         ###   ########.fr       */
+/*   Updated: 2016/03/18 18:02:43 by pcrosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ float	*ft_set_suit(float x, float y, float cx, float cy)
 	ret = (float *)malloc(sizeof(float) * 2);
 	ret[0] = x;
 	ret[1] = y;
-	while (n < 100)
+	while (n < 50)
 	{
 		tmpx = ret[0];
 		ret[0] = (ret[0] * ret[0]) - (ret[1] * ret[1]) + cx;
@@ -73,7 +73,7 @@ void	ft_julia_fract(t_data *ptr)
 //			ft_putchar('\n');
 //			ft_putnbr(ret[1]);
 //			ft_putchar('\n');
-			if (ft_module(ret[0], ret[1], ptr->cx, ptr->cy) <= 4)
+			if (x * ptr->scale < 500 && y * ptr->scale < 500 && ft_module(ret[0], ret[1], ptr->cx, ptr->cy) <= 4)
 			{
 //				ft_putstr("HERE\n");
 				ft_draw(ptr, 500 + (x * ptr->scale), 500 + (y * ptr->scale));
@@ -100,6 +100,8 @@ int		ft_mouse_hook(int button, t_data *ptr)
 		ptr->scale += 50;
 	if (button == 31)
 		ptr->scale -= 50;
+	if (button == 53)
+		exit(0);
 	mlx_clear_window(ptr->mlx, ptr->win);
 	ptr->pict = mlx_new_image(ptr->mlx, 1000, 1000);
 	free(ptr->data_adrr);
