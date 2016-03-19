@@ -6,7 +6,7 @@
 /*   By: pcrosnie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 13:25:31 by pcrosnie          #+#    #+#             */
-/*   Updated: 2016/03/18 17:03:20 by pcrosnie         ###   ########.fr       */
+/*   Updated: 2016/03/19 13:46:25 by pcrosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct s_data
 	int bits_per_pixel;
 	int size_line;
 	int endian;
-	int scale;
+	float scale;
 }			t_data;
 
 #endif
