@@ -6,7 +6,7 @@
 /*   By: pcrosnie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 13:24:58 by pcrosnie          #+#    #+#             */
-/*   Updated: 2016/03/19 15:29:54 by pcrosnie         ###   ########.fr       */
+/*   Updated: 2016/03/19 18:38:44 by pcrosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,16 @@ void	ft_julia_fract(t_data *ptr)
 	float *ret;
 	int n;
 	
-	n = 0;
+	n = 11;
 	x = -2;
 	y = -2;
 	ptr->red = 0;
 	ptr->green = 255;
-	ptr->blue = 0;
+	ptr->blue = 255;
 	while (n < 41)
 	{
+		if (n == 21)
+			n = 31;
 		x = -2;
 	while (x <= 2)
 	{
@@ -92,14 +94,14 @@ void	ft_julia_fract(t_data *ptr)
 		n = 1;
 	else
 	n += 10;
-	if (ptr->blue < 200)
+	if (ptr->red < 200)
 	{
-		ptr->red += 100;
-		ptr->blue += 100;
-		ptr->green -= 100;
+		ptr->red += 200;
+		ptr->blue -= 200;
+		ptr->green -= 200;
 	}
 	else
-		ptr->red -= 100;
+		ptr->blue -= 200;
 	}
 }
 
@@ -126,10 +128,11 @@ int		ft_mouse_hook(int button, t_data *ptr)
 	ptr->data_adrr = mlx_get_data_addr(ptr->pict, &(ptr->bits_per_pixel), &(ptr->size_line), &(ptr->endian));
 	ft_julia_fract(ptr);
 	mlx_put_image_to_window(ptr->mlx, ptr->win, ptr->pict, 0, 0);
+	mlx_key_hook(ptr->win, ft_mouse_hook, ptr);
 	return (0);
 }
 
-void	ft_set_window(t_data *ptr)
+void	ft_set_julia_window(t_data *ptr)
 {
 	ptr->cx = -1;
 	ptr->cy = 0;
@@ -147,23 +150,14 @@ void	ft_set_window(t_data *ptr)
 	mlx_loop(ptr->mlx);
 }
 
-int		main()
+int		main(int argc, char **argv)
 {
 	t_data *ptr;
-	int i;
-	int j;
 
-	j = 100;
-	i = 0;
 	ptr = (t_data *)malloc(sizeof(t_data));
-	ft_set_window(ptr);
-/*	while (i < a / 4)
-	{
-		ptr->data_adrr[(i * bits_per_pixel) / 8 + (j * a)] = ptr->blue;
-		ptr->data_adrr[(i * bits_per_pixel) / 8 + (j * a) + 1] = ptr->blue;
-		ptr->data_adrr[(i * bits_per_pixel) / 8 + (j * a) + 2] = ptr->blue;
-		i++;
-	}
-	mlx_put_image_to_window(ptr->mlx, ptr->win, ptr->pict, 0, 0);
-	mlx_loop(ptr->mlx);*/
+	if (argc == 2 && argv[1][0] == '1') 
+		ft_set_julia_window(ptr);
+	else if (argc == 2 && argv[1][0] == '2')
+		ft_set_mandelbrot_window(ptr);
+	return (0);
 }
