@@ -6,7 +6,7 @@
 /*   By: pcrosnie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 13:24:58 by pcrosnie          #+#    #+#             */
-/*   Updated: 2016/03/19 15:16:31 by pcrosnie         ###   ########.fr       */
+/*   Updated: 2016/03/19 15:29:54 by pcrosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,10 @@ void	ft_julia_fract(t_data *ptr)
 	n = 0;
 	x = -2;
 	y = -2;
-	ptr->red = 255;
-	ptr->green = 0;
+	ptr->red = 0;
+	ptr->green = 255;
 	ptr->blue = 0;
-	while (n < 51)
+	while (n < 41)
 	{
 		x = -2;
 	while (x <= 2)
@@ -92,9 +92,14 @@ void	ft_julia_fract(t_data *ptr)
 		n = 1;
 	else
 	n += 10;
-	ptr->green += 50;
-	ptr->blue += 50;
-	ptr->red -= 50;
+	if (ptr->blue < 200)
+	{
+		ptr->red += 100;
+		ptr->blue += 100;
+		ptr->green -= 100;
+	}
+	else
+		ptr->red -= 100;
 	}
 }
 
