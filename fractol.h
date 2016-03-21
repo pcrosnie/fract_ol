@@ -6,7 +6,7 @@
 /*   By: pcrosnie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 13:25:31 by pcrosnie          #+#    #+#             */
-/*   Updated: 2016/03/21 14:49:23 by pcrosnie         ###   ########.fr       */
+/*   Updated: 2016/03/21 16:21:18 by pcrosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "libft.h"
 # include "mlx.h"
+# include <math.h>
 
 typedef struct s_data
 {
@@ -32,6 +33,7 @@ typedef struct s_data
 	int bits_per_pixel;
 	int size_line;
 	int endian;
+	int n;
 	double scale;
 }				t_data;
 

@@ -6,7 +6,7 @@
 /*   By: pcrosnie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 13:24:58 by pcrosnie          #+#    #+#             */
-/*   Updated: 2016/03/21 14:42:51 by pcrosnie         ###   ########.fr       */
+/*   Updated: 2016/03/21 16:14:52 by pcrosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ double		ft_module(double x, double y, float cx, float cy)
 
 double	*ft_set_suit(float x, float y, float cx, float cy, int lim)
 {
-	static int n;
-	static float tmpx;
-	static double *ret;
+	int n;
+	double tmpx;
+	double *ret;
 
 	n = 0;
 	ret = (double *)malloc(sizeof(double) * 2);
@@ -146,9 +146,9 @@ int		ft_mouse_hook(int button, t_data *ptr)
 {
 //  ft_putnbr(button);
 	if (button == 126)
-	ptr->cx = ptr->cx + 0.01;
+	ptr->n = ptr->n + 1;
 	if (button == 125)
-	ptr->cx = ptr->cx - 0.01;
+	ptr->n = ptr->n - 1;
 	if (button == 124)
 		ptr->cy = ptr->cy + 0.01;
 	if (button == 123)
@@ -193,6 +193,7 @@ void	ft_set_julia_window(t_data *ptr)
 	ptr->red = 200;
 	ptr->green = 0;
 	ptr->blue = 0;
+	ptr->n = 10;
 	ptr->mlx = mlx_init();
 	ptr->win = mlx_new_window(ptr->mlx, 1000, 1000, "fract'ol");
 	ptr->pict = mlx_new_image(ptr->mlx, 1000, 1000);
