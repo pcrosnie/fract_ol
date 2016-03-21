@@ -6,7 +6,7 @@
 /*   By: pcrosnie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 13:25:31 by pcrosnie          #+#    #+#             */
-/*   Updated: 2016/03/19 19:19:09 by pcrosnie         ###   ########.fr       */
+/*   Updated: 2016/03/21 14:49:23 by pcrosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,15 @@ typedef struct s_data
 	int bits_per_pixel;
 	int size_line;
 	int endian;
-	float scale;
+	double scale;
 }				t_data;
 
+void	ft_julia_fract(t_data *ptr);
 void	ft_mandelbrot_fract(t_data *ptr);
 int		ft_key_hook(int button, t_data *ptr);
 void	ft_set_mandelbrot_window(t_data *ptr);
-void	ft_draw(t_data *ptr, int x, int y);
-float	ft_module(float x, float y, float cx, float cy);
-float	*ft_set_suit(float x, float y, float cx, float cy, int lim);
+void	ft_draw(t_data *ptr, float x, float y);
+double	ft_module(double x, double y, float cx, float cy);
+double	*ft_set_suit(float x, float y, float cx, float cy, int lim);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: pcrosnie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/19 18:40:03 by pcrosnie          #+#    #+#             */
-/*   Updated: 2016/03/19 19:22:13 by pcrosnie         ###   ########.fr       */
+/*   Updated: 2016/03/21 14:43:00 by pcrosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ft_mandelbrot_fract(t_data *ptr)
 {
 	float cx;
 	float cy;
-	float *ret;
+	double *ret;
 	int n;
 
 	n = 11;
