@@ -6,7 +6,7 @@
 /*   By: pcrosnie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 13:24:58 by pcrosnie          #+#    #+#             */
-/*   Updated: 2016/03/21 16:14:52 by pcrosnie         ###   ########.fr       */
+/*   Updated: 2016/03/22 11:05:35 by pcrosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,24 +43,24 @@ double		ft_module(double x, double y, float cx, float cy)
 	return (nb);
 }
 
-double	*ft_set_suit(float x, float y, float cx, float cy, int lim)
+double	ft_set_suit(float x, float y, float cx, float cy, int lim)
 {
 	int n;
 	double tmpx;
-	double *ret;
+	double retx;
+	double rety;
 
 	n = 0;
-	ret = (double *)malloc(sizeof(double) * 2);
-	ret[0] = x;
-	ret[1] = y;
+	retx = x;
+	rety = y;
 	while (n < lim)
 	{
-		tmpx = ret[0];
-		ret[0] = (ret[0] * ret[0]) - (ret[1] * ret[1]) + cx;
-		ret[1] = (2 * tmpx * ret[1] + cy);
+		tmpx = retx;
+		retx = (retx * retx) - (rety * rety) + cx;
+		rety = (2 * tmpx * rety + cy);
 		n++;
 	}
-	return (ret);
+	return (hypot((retx * retx) - (rety * rety) + cx, 2 * retx * rety + cy));
 }
 /*
 void	ft_julia_fract(t_data *ptr)
@@ -154,12 +154,18 @@ int		ft_mouse_hook(int button, t_data *ptr)
 	if (button == 123)
 		ptr->cy = ptr->cy - 0.01;
 	if (button == 34)
+	{
 		ptr->scale += 50;
+		ptr->n += 1;
+	}
 	if (button == 31)
+	{
 		ptr->scale -= 50;
+		ptr->n -= 1;
+	}
 	if (button == 53)
 		exit(0);
-	ptr->pict = mlx_new_image(ptr->mlx, 1000, 1000);
+	ptr->pict = mlx_new_image(ptr->mlx, 500, 500);
 	free(ptr->data_adrr);
 	ptr->data_adrr = mlx_get_data_addr(ptr->pict, &(ptr->bits_per_pixel), &(ptr->size_line), &(ptr->endian));
 	ft_julia_fract(ptr);
@@ -177,7 +183,7 @@ int		motion_notify(int x, int y, t_data *ptr)
 	yi = (float)y;
 	ptr->cx = xi / 1000;
 	ptr->cy = yi / 1000;
-	ptr->pict = mlx_new_image(ptr->mlx, 1000, 1000);
+	ptr->pict = mlx_new_image(ptr->mlx, 500, 500);
 	free(ptr->data_adrr);
 	ptr->data_adrr = mlx_get_data_addr(ptr->pict, &(ptr->bits_per_pixel), &(ptr->size_line), &(ptr->endian));
 	ft_julia_fract(ptr);
@@ -193,10 +199,10 @@ void	ft_set_julia_window(t_data *ptr)
 	ptr->red = 200;
 	ptr->green = 0;
 	ptr->blue = 0;
-	ptr->n = 10;
+	ptr->n = 5;
 	ptr->mlx = mlx_init();
-	ptr->win = mlx_new_window(ptr->mlx, 1000, 1000, "fract'ol");
-	ptr->pict = mlx_new_image(ptr->mlx, 1000, 1000);
+	ptr->win = mlx_new_window(ptr->mlx, 500, 500, "fract'ol");
+	ptr->pict = mlx_new_image(ptr->mlx, 500, 500);
 	ptr->data_adrr = mlx_get_data_addr(ptr->pict, &(ptr->bits_per_pixel), &(ptr->size_line), &(ptr->endian));
 	ft_julia_fract(ptr);
 	mlx_put_image_to_window(ptr->mlx, ptr->win, ptr->pict, 0, 0);

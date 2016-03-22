@@ -6,7 +6,7 @@
 /*   By: pcrosnie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 13:25:31 by pcrosnie          #+#    #+#             */
-/*   Updated: 2016/03/21 16:21:18 by pcrosnie         ###   ########.fr       */
+/*   Updated: 2016/03/22 10:34:37 by pcrosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,6 @@ int		ft_key_hook(int button, t_data *ptr);
 void	ft_set_mandelbrot_window(t_data *ptr);
 void	ft_draw(t_data *ptr, float x, float y);
 double	ft_module(double x, double y, float cx, float cy);
-double	*ft_set_suit(float x, float y, float cx, float cy, int lim);
+double	ft_set_suit(float x, float y, float cx, float cy, int lim);
 
 #endif

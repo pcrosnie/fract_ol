@@ -6,7 +6,7 @@
 /*   By: pcrosnie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/19 18:40:03 by pcrosnie          #+#    #+#             */
-/*   Updated: 2016/03/21 14:43:00 by pcrosnie         ###   ########.fr       */
+/*   Updated: 2016/03/22 10:39:36 by pcrosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	ft_mandelbrot_fract(t_data *ptr)
 {
 	float cx;
 	float cy;
-	double *ret;
 	int n;
 
 	n = 11;
@@ -60,8 +59,7 @@ void	ft_mandelbrot_fract(t_data *ptr)
 			cy = -2;
 			while (cy <= 2)
 			{
-				ret = ft_set_suit(ptr->x, ptr->y, cx, cy, n);
-				if (ft_module(ret[0], ret[1], cx, cy) <= 4)
+				if (ft_set_suit(ptr->x, ptr->y, cx, cy, n) <= 4)
 				{
 					ft_draw(ptr, 500 + (cx * ptr->scale), 500 + (cy * ptr->scale));
 				}
