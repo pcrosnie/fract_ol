@@ -6,7 +6,7 @@
 /*   By: pcrosnie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/21 11:14:21 by pcrosnie          #+#    #+#             */
-/*   Updated: 2016/03/22 11:23:36 by pcrosnie         ###   ########.fr       */
+/*   Updated: 2016/03/23 10:58:18 by pcrosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,28 +17,37 @@ void	ft_julia_fract(t_data *ptr)
 {
 	double x;
 	double y;
-	int n;
+	double mod;
 	
-	n = 50;
 	x = -2;
 	y = -2;
 	while (250 + (x * ptr->scale) < 0)
 	 x += (1 / ptr->scale);
-	while (250 + (x * ptr->scale) < 500 && 250 + (x * ptr->scale) >= 0)
+	while (250 + (x * ptr->scale) < 500 && 250 + (x * ptr->scale) >= -1)
 	{
 		y = -2;
 		while (250 + (y * ptr->scale) < 0)
 			y += (1 / ptr->scale);
-		while (250 + (y * ptr->scale) < 500 && 250 + (y * ptr->scale) >= 0)
+		while (250 + (y * ptr->scale) < 500 && 250 + (y * ptr->scale) >= -1)
 		{
-			ptr->red = 200;
-			ptr->blue = 200;
-			if (ft_set_suit(x, y, ptr->cx, ptr->cy, ptr->n) <= 4)
+			ptr->red = 100;
+			ptr->blue = 100;
+			ptr->green = 200;
+			mod = ft_set_suit(x, y, ptr->cx, ptr->cy, ptr->n);
+			if (mod <= 4)
+			{
+				ptr->green -= mod * 100;
 				ft_draw(ptr, 250 + (x * ptr->scale), 250 + (y * ptr->scale));
-			ptr->red = 0;
-			ptr->blue = 0;
-			if (ft_set_suit(x, y, ptr->cx, ptr->cy, ptr->n + 20) <= 4)
-				ft_draw(ptr, 250 + (x * ptr->scale), 250 + (y * ptr->scale));
+			}
+//			ptr->red = 200;
+//			ptr->blue = 200;
+//			if (ft_set_suit(x, y, ptr->cx, ptr->cy, ptr->n + 10) <= 4)
+//				ft_draw(ptr, 250 + (x * ptr->scale), 250 + (y * ptr->scale));
+//			ptr->red = 0;
+//			ptr->blue = 0;
+//			ptr->green = 0;
+//			if (ft_set_suit(x, y, ptr->cx, ptr->cy, ptr->n + 10) <= 4)
+//				ft_draw(ptr, 250 + (x * ptr->scale), 250 + (y * ptr->scale));
 //			printf("%f\n", ptr->scale);
 			y = y + (1 / ptr->scale);
 		}
