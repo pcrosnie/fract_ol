@@ -6,7 +6,7 @@
 /*   By: pcrosnie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 13:24:58 by pcrosnie          #+#    #+#             */
-/*   Updated: 2016/03/23 10:51:45 by pcrosnie         ###   ########.fr       */
+/*   Updated: 2016/03/23 15:47:43 by pcrosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,10 +142,30 @@ void	ft_julia_fract(t_data *ptr)
 	ptr->red = 0;
 }
 */
+
+void	ft_set_color(t_data *ptr)
+{
+	if (ptr->blue > 230)
+		ptr->blue = 0;
+	else
+	ptr->blue += 20;
+	if (ptr->red > 230)
+		ptr->red = 0;
+	else
+		ptr->red += 20;
+}
+
 int		ft_mouse_hook(int button, t_data *ptr)
 {
 	ft_putnbr(button);
 	ft_putchar('\n');
+	if (button == 49)
+	{
+		if (ptr->param == 0)
+			ptr->param = 1;
+		else
+			ptr->param = 0;
+	}
 	if (button == 126)
 	ptr->n = ptr->n + 1;
 	if (button == 125)
@@ -170,6 +190,7 @@ int		ft_mouse_hook(int button, t_data *ptr)
 	ptr->pict = mlx_new_image(ptr->mlx, 500, 500);
 	free(ptr->data_adrr);
 	ptr->data_adrr = mlx_get_data_addr(ptr->pict, &(ptr->bits_per_pixel), &(ptr->size_line), &(ptr->endian));
+//	ft_set_color(ptr);
 	ft_julia_fract(ptr);
 	mlx_put_image_to_window(ptr->mlx, ptr->win, ptr->pict, 0, 0);
 	return (0);
@@ -182,35 +203,49 @@ int		motion_notify(int x, int y, t_data *ptr)
 
 	xi = (float)x;
 	yi = (float)y;
+	if (ptr->param == 0)
+	{
 	ptr->cx = xi / 1000;
 	ptr->cy = yi / 1000;
 	ptr->pict = mlx_new_image(ptr->mlx, 500, 500);
 	free(ptr->data_adrr);
 	ptr->data_adrr = mlx_get_data_addr(ptr->pict, &(ptr->bits_per_pixel), &(ptr->size_line), &(ptr->endian));
+	ft_set_color(ptr);
 	ft_julia_fract(ptr);
 	mlx_put_image_to_window(ptr->mlx, ptr->win, ptr->pict, 0, 0);
+	}
 	return (0);
 }
 
 int		ft_set_mouse(int button, int x, int y, t_data *ptr)
 {
-	int a;
-
-	a = x;
-	a = y;
 	if (button == 4 || button == 7)
 	{
-		ptr->scale -= 10;
+		ptr->scale -= 30;
 		if (ptr->n < 30)
 		ptr->n = ptr->scale / 10;
-		ptr->centerx = 250 + (x - 250) / 250;
-		ptr->centery = 250 + (y - 250) / 250;
+		if (x < 500 && x > 0 && y < 500 && y > 0)
+		{
+//		ptr->centerx += (x) / (ptr->n / 3);
+//		ptr->centery += (y) / (ptr->n / 3);
+		}
 	}
 	if (button == 5 || button == 6)
 	{
-		ptr->scale += 10;
+		ptr->scale += 30;
 		ptr->n = ptr->scale / 10;
+		if (x < 500 && x > 0 && y < 500 && y > 0)
+		{
+//		ptr->centerx -= (x) / (ptr->n / 3);
+//		ptr->centery -= (y) / (ptr->n / 3);
+		}
 	}
+	ptr->pict = mlx_new_image(ptr->mlx, 500, 500);
+	free(ptr->data_adrr);
+	ptr->data_adrr = mlx_get_data_addr(ptr->pict, &(ptr->bits_per_pixel), &(ptr->size_line), &(ptr->endian));
+//	ft_set_color(ptr);
+	ft_julia_fract(ptr);
+	mlx_put_image_to_window(ptr->mlx, ptr->win, ptr->pict, 0, 0);
 	return (0);
 }
 
@@ -229,6 +264,7 @@ void	ft_set_julia_window(t_data *ptr)
 	ptr->win = mlx_new_window(ptr->mlx, 500, 500, "fract'ol");
 	ptr->pict = mlx_new_image(ptr->mlx, 500, 500);
 	ptr->data_adrr = mlx_get_data_addr(ptr->pict, &(ptr->bits_per_pixel), &(ptr->size_line), &(ptr->endian));
+	ft_set_color(ptr);
 	ft_julia_fract(ptr);
 	mlx_put_image_to_window(ptr->mlx, ptr->win, ptr->pict, 0, 0);
 	mlx_key_hook(ptr->win, ft_mouse_hook, ptr);

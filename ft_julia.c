@@ -6,7 +6,7 @@
 /*   By: pcrosnie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/21 11:14:21 by pcrosnie          #+#    #+#             */
-/*   Updated: 2016/03/23 10:58:18 by pcrosnie         ###   ########.fr       */
+/*   Updated: 2016/03/23 15:33:53 by pcrosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,23 @@ void	ft_julia_fract(t_data *ptr)
 	
 	x = -2;
 	y = -2;
-	while (250 + (x * ptr->scale) < 0)
+	while (ptr->centerx + (x * ptr->scale) < 0)
 	 x += (1 / ptr->scale);
-	while (250 + (x * ptr->scale) < 500 && 250 + (x * ptr->scale) >= -1)
+	while (ptr->centerx + (x * ptr->scale) < 500 && ptr->centerx + (x * ptr->scale) >= -2)
 	{
 		y = -2;
-		while (250 + (y * ptr->scale) < 0)
+		while (ptr->centery + (y * ptr->scale) < 0)
 			y += (1 / ptr->scale);
-		while (250 + (y * ptr->scale) < 500 && 250 + (y * ptr->scale) >= -1)
+		while (ptr->centery + (y * ptr->scale) < 500 && ptr->centery + (y * ptr->scale) >= -2)
 		{
-			ptr->red = 100;
-			ptr->blue = 100;
+//			ptr->red = 100;
+//			ptr->blue = 100;
 			ptr->green = 200;
 			mod = ft_set_suit(x, y, ptr->cx, ptr->cy, ptr->n);
 			if (mod <= 4)
 			{
-				ptr->green -= mod * 100;
-				ft_draw(ptr, 250 + (x * ptr->scale), 250 + (y * ptr->scale));
+				ptr->green -= mod * 300;
+				ft_draw(ptr, ptr->centerx + (x * ptr->scale), ptr->centery + (y * ptr->scale));
 			}
 //			ptr->red = 200;
 //			ptr->blue = 200;

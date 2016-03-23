@@ -6,7 +6,7 @@
 /*   By: pcrosnie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 13:25:31 by pcrosnie          #+#    #+#             */
-/*   Updated: 2016/03/23 10:47:15 by pcrosnie         ###   ########.fr       */
+/*   Updated: 2016/03/23 13:51:41 by pcrosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 typedef struct s_data
 {
+	int param;
 	void *mlx;
 	void *win;
 	void *pict;
@@ -26,8 +27,8 @@ typedef struct s_data
 	float y;
 	float cx;
 	float cy;
-	int	centerx;
-	int centery;
+	double centerx;
+	double centery;
 	char *data_adrr;
 	int blue;
 	int red;
