@@ -6,7 +6,7 @@
 /*   By: pcrosnie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 13:25:31 by pcrosnie          #+#    #+#             */
-/*   Updated: 2016/03/23 13:51:41 by pcrosnie         ###   ########.fr       */
+/*   Updated: 2016/04/04 15:33:28 by pcrosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,13 @@
 
 typedef struct s_data
 {
+	int exp;
 	int param;
 	void *mlx;
 	void *win;
 	void *pict;
-	float x;
-	float y;
+	double x;
+	double y;
 	float cx;
 	float cy;
 	double centerx;
@@ -37,9 +38,14 @@ typedef struct s_data
 	int size_line;
 	int endian;
 	int n;
+	int q;
+	double tmp_scale;
 	double scale;
 }				t_data;
 
+int		ft_mouse_hook(int button, t_data *ptr);
+int 	ft_set_mouse2(int button, int a, int b, t_data *ptr);
+int		motion_notify2(int x, int y, t_data *ptr);
 void	ft_julia_fract(t_data *ptr);
 void	ft_mandelbrot_fract(t_data *ptr);
 int		ft_key_hook(int button, t_data *ptr);
@@ -47,5 +53,8 @@ void	ft_set_mandelbrot_window(t_data *ptr);
 void	ft_draw(t_data *ptr, float x, float y);
 double	ft_module(double x, double y, float cx, float cy);
 double	ft_set_suit(float x, float y, float cx, float cy, int lim);
+int		ft_set_mouse(int button, int a, int b, t_data *ptr);
+void	ft_set_color(t_data *ptr);
+void	ft_set_newton_window(t_data *ptr);
 
 #endif

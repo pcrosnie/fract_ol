@@ -6,7 +6,7 @@
 #    By: pcrosnie <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/01/20 12:13:09 by pcrosnie          #+#    #+#              #
-#    Updated: 2016/03/21 13:28:04 by pcrosnie         ###   ########.fr        #
+#    Updated: 2016/04/04 14:55:15 by pcrosnie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = fractol
 
 FLAGS = -Wall -Werror -Wextra -L /usr/lib -lmlx -framework OpenGl -framework AppKit
 
-SRC = libft/libft.a main.c ft_mandelbrot.c ft_julia.c
+SRC = libft/libft.a main.c ft_mandelbrot.c ft_julia.c ft_newton_fract.c
 
 all: $(NAME)
 
