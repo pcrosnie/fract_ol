@@ -6,7 +6,7 @@
 /*   By: pcrosnie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 13:24:58 by pcrosnie          #+#    #+#             */
-/*   Updated: 2016/04/04 14:56:20 by pcrosnie         ###   ########.fr       */
+/*   Updated: 2016/04/11 10:54:54 by pcrosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,36 +154,37 @@ int		motion_notify(int x, int y, t_data *ptr)
 
 int		ft_set_mouse(int button, int a, int b, t_data *ptr)
 {
-	float x;
-	float y;
+	double x;
+	double y;
 
 	x = a;
 	y = b;
 	if (button == 4 || button == 7)
 	{
 		ptr->tmp_scale = ptr->scale;
-		ptr->scale -= (30 + ptr->exp);
-		ptr->exp -= 30;
+		ptr->scale -= (50 + ptr->exp);
+		ptr->exp -= 50 + ptr->exp2;
+		ptr->exp2 -= 30;
 		if (ptr->n < 40 && ptr->scale / 30 > 15)
 			ptr->n = ptr->scale / 30;
-		/*
-		if (x < 500 && x > 0 && y < 500 && y > 0)
+/*		if (x < 500 && x > 0 && y < 500 && y > 0)
 		{
-			ptr->centerx += (x - 250);
-			ptr->centery += (y - 250);
+			ptr->centerx += ((x - ptr->centerx) / 2);
+			ptr->centery += ((y - ptr->centery) / 2);
 		}*/
 	}
 	if (button == 5 || button == 6)
 	{
 		ptr->tmp_scale = ptr->scale;
-		ptr->scale += (30 + ptr->exp);
-		ptr->exp += 30;
+		ptr->scale += (50 + ptr->exp);
+		ptr->exp += 50 + ptr->exp2;
+		ptr->exp2 += 30;
 		if (ptr->n < 50 && ptr->scale / 30 > 15)
 		ptr->n = ptr->scale / 30;
-	/*	if (x < 500 && x > 0 && y < 500 && y > 0)
+/*		if (x < 500 && x > 0 && y < 500 && y > 0)
 		{
-			ptr->centerx -= (x - 250);
-			ptr->centery -= (y - 250);
+			ptr->centerx -= ((x - ptr->centery) / 2);
+			ptr->centery -= ((y - ptr->centery) / 2);
 		}*/
 	}
 	ptr->pict = mlx_new_image(ptr->mlx, 500, 500);
@@ -208,6 +209,7 @@ void	ft_set_julia_window(t_data *ptr)
 	ptr->centerx = 250;
 	ptr->centery = 250;
 	ptr->exp = 0;
+	ptr->exp2 = 0;
 	ptr->param = 0;
 	ptr->mlx = mlx_init();
 	ptr->win = mlx_new_window(ptr->mlx, 500, 500, "fract'ol");

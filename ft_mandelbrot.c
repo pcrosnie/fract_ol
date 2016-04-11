@@ -6,7 +6,7 @@
 /*   By: pcrosnie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/19 18:40:03 by pcrosnie          #+#    #+#             */
-/*   Updated: 2016/04/04 14:08:29 by pcrosnie         ###   ########.fr       */
+/*   Updated: 2016/04/11 11:07:31 by pcrosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 int		motion_notify2(int x, int y, t_data *ptr)
 {
 	x = y;
-//	if (ptr->param == 0)
-//	{
+	if (ptr->param == 0)
+	{
 		ptr->pict = mlx_new_image(ptr->mlx, 500, 500);
 		free(ptr->data_adrr);
 		ptr->data_adrr = mlx_get_data_addr(ptr->pict, &(ptr->bits_per_pixel), &(ptr->size_line), &(ptr->endian));
 		ft_set_color(ptr);
 		ft_mandelbrot_fract(ptr);
 		mlx_put_image_to_window(ptr->mlx, ptr->win, ptr->pict, 0, 0);
-//	}
+	}
 	return (0);
 }
 
@@ -37,16 +37,18 @@ int             ft_set_mouse2(int button, int a, int b, t_data *ptr)
 	if (button == 4 || button == 7)
 	{
 		ptr->tmp_scale = ptr->scale;
-		ptr->scale -= (30 + ptr->exp);
-		ptr->exp -= 30;
+		ptr->scale -= (50 + ptr->exp);
+		ptr->exp -= 50 + ptr->exp2;
+		ptr->exp2 -= 30;
 		if (ptr->n < 40 && ptr->scale / 30 > 15)
 			ptr->n = ptr->scale / 30;
 	}
 	if (button == 5 || button == 6)
 	{
 		ptr->tmp_scale = ptr->scale;
-		ptr->scale += (30 + ptr->exp);
-		ptr->exp += 30;
+		ptr->scale += (50 + ptr->exp);
+		ptr->exp += 50 + ptr->exp2;
+		ptr->exp2 += 30;
 		if (ptr->n < 50 && ptr->scale / 30 > 15)
 			ptr->n = ptr->scale / 30;
 	}
@@ -85,6 +87,13 @@ int		ft_key_hook(int button, t_data *ptr)
 	}
 	if (button == 53)
 		exit(0);
+	if (button == 49)
+	{
+		if (ptr->param == 0)
+			ptr->param = 1;
+		else
+			ptr->param = 0;
+	}
 	//mlx_clear_window(ptr->mlx, ptr->win);
 	ptr->pict = mlx_new_image(ptr->mlx, 500, 500);
 	free(ptr->data_adrr);
@@ -134,8 +143,10 @@ void	ft_set_mandelbrot_window(t_data *ptr)
 	ptr->red = 255;
 	ptr->blue = 0;
 	ptr->green = 0;
-	ptr->n = 20;
+	ptr->n = 10;
 	ptr->exp = 0;
+	ptr->exp2 = 0;
+	ptr->param = 0;
 	ptr->mlx = mlx_init();
 	ptr->win = mlx_new_window(ptr->mlx, 500, 500, "fract'ol");
 	ptr->pict = mlx_new_image(ptr->mlx, 500, 500);
