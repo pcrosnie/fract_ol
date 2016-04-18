@@ -6,52 +6,44 @@
 /*   By: pcrosnie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/21 11:14:21 by pcrosnie          #+#    #+#             */
-/*   Updated: 2016/04/18 11:28:09 by pcrosnie         ###   ########.fr       */
+/*   Updated: 2016/04/18 16:44:42 by pcrosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-#include <stdio.h>
+
+void	ft_cpy2(t_data *ptr, double x, double y)
+{
+	ptr->x = x;
+	ptr->y = y;
+	ptr->green = 200;
+}
 
 void	ft_julia_fract(t_data *ptr)
 {
 	double x;
 	double y;
 	double mod;
-	
+
 	x = -2;
-	y = -2;
-	while (ptr->centerx + (x * ptr->scale) < 0)
-	 x += (1 / ptr->scale);
-	while (ptr->centerx + (x * ptr->scale) < 499 && ptr->centerx + (x * ptr->scale) >= 0)
+	while (ptr->gx + (x * ptr->sc) < 0)
+		x += (1 / ptr->sc);
+	while (ptr->gx + (x * ptr->sc) < 499 && ptr->gx + (x * ptr->sc) >= 0)
 	{
 		y = -2;
-		while (ptr->centery + (y * ptr->scale) < 0)
-			y += (1 / ptr->scale);
-		while (ptr->centery + (y * ptr->scale) < 499 && ptr->centery + (y * ptr->scale) >= 0)
+		while (ptr->gy + (y * ptr->sc) < 0)
+			y += (1 / ptr->sc);
+		while (ptr->gy + (y * ptr->sc) < 499 && ptr->gy + (y * ptr->sc) >= 0)
 		{
-//			ptr->red = 100;
-//			ptr->blue = 100;
-			ptr->green = 200;
-			mod = ft_set_suit(x, y, ptr->cx, ptr->cy, ptr->n);
+			ft_cpy2(ptr, x, y);
+			mod = ft_set_suit(ptr, ptr->n);
 			if (mod <= 4)
 			{
 				ptr->green -= mod * 300;
-				ft_draw(ptr, ptr->centerx + (x * ptr->scale), ptr->centery + (y * ptr->scale));
+				ft_draw(ptr, ptr->gx + (x * ptr->sc), ptr->gy + (y * ptr->sc));
 			}
-//			ptr->red = 200;
-//			ptr->blue = 200;
-//			if (ft_set_suit(x, y, ptr->cx, ptr->cy, ptr->n + 10) <= 4)
-//				ft_draw(ptr, 250 + (x * ptr->scale), 250 + (y * ptr->scale));
-//			ptr->red = 0;
-//			ptr->blue = 0;
-//			ptr->green = 0;
-//			if (ft_set_suit(x, y, ptr->cx, ptr->cy, ptr->n + 10) <= 4)
-//				ft_draw(ptr, 250 + (x * ptr->scale), 250 + (y * ptr->scale));
-//			printf("%f\n", ptr->scale);
-			y = y + (1 / ptr->scale);
+			y = y + (1 / ptr->sc);
 		}
-		x = x + (1 / ptr->scale);
+		x = x + (1 / ptr->sc);
 	}
 }
-		

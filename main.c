@@ -6,7 +6,7 @@
 /*   By: pcrosnie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 13:24:58 by pcrosnie          #+#    #+#             */
-/*   Updated: 2016/04/18 11:23:13 by pcrosnie         ###   ########.fr       */
+/*   Updated: 2016/04/18 17:03:50 by pcrosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,48 +15,42 @@
 
 void	ft_draw(t_data *ptr, float x, float y)
 {
-	//	ft_putnbr((x * ptr->bits_per_pixel) / 8 + (y * (ptr->size_line)));
-	//	ft_putnbr(ptr->green);
-	//	ft_putchar('\n');
 	int nb;
-	/*
-	   float xi;
-	   float yi;
 
-	   xi = 500 + (x / 10000 * ptr->scale);
-	   yi = 500 + (y / 10000 * ptr->scale);*/
-		nb = (x * ptr->bits_per_pixel) / 8 + (y * ptr->size_line);
-		ptr->data_adrr[nb] = ptr->red;
-		ptr->data_adrr[nb + 1] = ptr->green;
-		ptr->data_adrr[nb + 2] = ptr->blue;
+	nb = (x * ptr->bits) / 8 + (y * ptr->len);
+	ptr->data_adrr[nb] = ptr->red;
+	ptr->data_adrr[nb + 1] = ptr->green;
+	ptr->data_adrr[nb + 2] = ptr->blue;
 }
 
-double		ft_module(double x, double y, float cx, float cy)
+double	ft_module(double x, double y, float cx, float cy)
 {
 	double nb;
 
-	nb = ((x * x) - (y * y) + cx) * ((x * x) - (y * y) + cx) + ((2 * x * y + cy) * (2 * x * y + cy));
+	nb = ((x * x) - (y * y) + cx) * ((x * x) - (y * y) + cx)
+		+ ((2 * x * y + cy) * (2 * x * y + cy));
 	return (nb);
 }
 
-double	ft_set_suit(float x, float y, float cx, float cy, int lim)
+double	ft_set_suit(t_data *ptr, int lim)
 {
-	int n;
-	double tmpx;
-	double retx;
-	double rety;
+	int		n;
+	double	tmpx;
+	double	retx;
+	double	rety;
 
 	n = 0;
-	retx = x;
-	rety = y;
+	retx = ptr->x;
+	rety = ptr->y;
 	while (n < lim)
 	{
 		tmpx = retx;
-		retx = (retx * retx) - (rety * rety) + cx;
-		rety = (2 * tmpx * rety + cy);
+		retx = (retx * retx) - (rety * rety) + ptr->cx;
+		rety = (2 * tmpx * rety + ptr->cy);
 		n++;
 	}
-	return (hypot((retx * retx) - (rety * rety) + cx, 2 * retx * rety + cy));
+	return (hypot((retx * retx) - (rety * rety) + ptr->cx
+				, 2 * retx * rety + ptr->cy));
 }
 
 void	ft_set_color(t_data *ptr)
@@ -76,22 +70,38 @@ void	ft_reset(t_data *ptr)
 	ptr->cx = -1;
 	ptr->cy = 0;
 	ptr->tmp_scale = 100;
-	ptr->scale = 100;
+	ptr->sc = 100;
 	ptr->red = 200;
 	ptr->green = 0;
 	ptr->blue = 0;
 	ptr->n = 15;
-	ptr->centerx = 250;
-	ptr->centery = 250;
+	ptr->gx = 250;
+	ptr->gy = 250;
 	ptr->exp = 0;
+}
+
+void	ft_set_hook(t_data *ptr, int button)
+{
+	(button == 126) ? ptr->gy += 250 : 0;
+	(button == 125) ? ptr->gy -= 250 : 0;
+	(button == 124) ? ptr->gx -= 250 : 0;
+	(button == 123) ? ptr->gx += 250 : 0;
+	if (button == 34)
+	{
+		ptr->sc += 50;
+		(ptr->n < 50) ? ptr->n += 1 : 0;
+	}
+	if (button == 31)
+	{
+		ptr->sc -= 50;
+		ptr->n -= 1;
+	}
 }
 
 int		ft_mouse_hook(int button, t_data *ptr)
 {
-	if (button == 69)
-		ptr->n++;
-	if (button == 78)
-		ptr->n--;
+	(button == 69) ? ptr->n++ : 0;
+	(button == 78) ? ptr->n-- : 0;
 	if (button == 49)
 	{
 		if (ptr->param == 0)
@@ -99,33 +109,13 @@ int		ft_mouse_hook(int button, t_data *ptr)
 		else
 			ptr->param = 0;
 	}
-	if (button == 126)
-		ptr->centery += 250;
-	if (button == 125)
-		ptr->centery -= 250;
-	if (button == 124)
-		ptr->centerx -= 250;
-	if (button == 123)
-		ptr->centerx += 250;
-	if (button == 34)
-	{
-		ptr->scale += 50;
-		if (ptr->n < 50)
-			ptr->n += 1;
-	}
-	if (button == 31)
-	{
-		ptr->scale -= 50;
-		ptr->n -= 1;
-	}
-	if (button == 53)
-		exit(0);
-	if (button == 15)
-		ft_reset(ptr);
+	ft_set_hook(ptr, button);
+	(button == 53) ? exit(0) : 0;
+	(button == 15) ? ft_reset(ptr) : 0;
 	ptr->pict = mlx_new_image(ptr->mlx, 500, 500);
 	free(ptr->data_adrr);
-	ptr->data_adrr = mlx_get_data_addr(ptr->pict, &(ptr->bits_per_pixel), &(ptr->size_line), &(ptr->endian));
-	//	ft_set_color(ptr);
+	ptr->data_adrr = mlx_get_data_addr(ptr->pict, &(ptr->bits)
+			, &(ptr->len), &(ptr->endian));
 	ft_julia_fract(ptr);
 	mlx_put_image_to_window(ptr->mlx, ptr->win, ptr->pict, 0, 0);
 	return (0);
@@ -140,11 +130,12 @@ int		motion_notify(int x, int y, t_data *ptr)
 	yi = (float)y;
 	if (ptr->param == 0)
 	{
-		ptr->cx = xi / (900 + ptr->scale);
-		ptr->cy = yi / (900 + ptr->scale);
+		ptr->cx = xi / (900 + ptr->sc);
+		ptr->cy = yi / (900 + ptr->sc);
 		ptr->pict = mlx_new_image(ptr->mlx, 500, 500);
 		free(ptr->data_adrr);
-		ptr->data_adrr = mlx_get_data_addr(ptr->pict, &(ptr->bits_per_pixel), &(ptr->size_line), &(ptr->endian));
+		ptr->data_adrr = mlx_get_data_addr(ptr->pict, &(ptr->bits)
+				, &(ptr->len), &(ptr->endian));
 		ft_set_color(ptr);
 		ft_julia_fract(ptr);
 		mlx_put_image_to_window(ptr->mlx, ptr->win, ptr->pict, 0, 0);
@@ -161,30 +152,20 @@ int		ft_set_mouse(int button, int a, int b, t_data *ptr)
 	y = b;
 	if (button == 4 || button == 7)
 	{
-		ptr->scale /= ptr->tmp_scale;
-		if (ptr->n < 40 && ptr->scale / 30 > 15)
-			ptr->n = ptr->scale / 30;
-/*		if (x < 500 && x > 0 && y < 500 && y > 0)
-		{
-			ptr->centerx += ((x - ptr->centerx) / 2);
-			ptr->centery += ((y - ptr->centery) / 2);
-		}*/
+		ptr->sc /= ptr->tmp_scale;
+		if (ptr->n < 40 && ptr->sc / 30 > 15)
+			ptr->n = ptr->sc / 30;
 	}
 	if (button == 5 || button == 6)
 	{
-		ptr->scale *= ptr->tmp_scale;
-		if (ptr->n < 50 && ptr->scale / 30 > 15)
-		ptr->n = ptr->scale / 30;
-/*		if (x < 500 && x > 0 && y < 500 && y > 0)
-		{
-			ptr->centerx -= ((x - ptr->centery) / 2);
-			ptr->centery -= ((y - ptr->centery) / 2);
-		}*/
+		ptr->sc *= ptr->tmp_scale;
+		if (ptr->n < 50 && ptr->sc / 30 > 15)
+			ptr->n = ptr->sc / 30;
 	}
 	ptr->pict = mlx_new_image(ptr->mlx, 500, 500);
 	free(ptr->data_adrr);
-	ptr->data_adrr = mlx_get_data_addr(ptr->pict, &(ptr->bits_per_pixel), &(ptr->size_line), &(ptr->endian));
-	//	ft_set_color(ptr);
+	ptr->data_adrr = mlx_get_data_addr(ptr->pict, &(ptr->bits)
+			, &(ptr->len), &(ptr->endian));
 	ft_julia_fract(ptr);
 	mlx_put_image_to_window(ptr->mlx, ptr->win, ptr->pict, 0, 0);
 	return (0);
@@ -195,20 +176,21 @@ void	ft_set_julia_window(t_data *ptr)
 	ptr->cx = -1;
 	ptr->cy = 0;
 	ptr->tmp_scale = 2;
-	ptr->scale = 100;
+	ptr->sc = 100;
 	ptr->red = 200;
 	ptr->green = 0;
 	ptr->blue = 0;
 	ptr->n = 10;
-	ptr->centerx = 250;
-	ptr->centery = 250;
+	ptr->gx = 250;
+	ptr->gy = 250;
 	ptr->exp = 4;
 	ptr->exp2 = 0;
 	ptr->param = 0;
 	ptr->mlx = mlx_init();
 	ptr->win = mlx_new_window(ptr->mlx, 500, 500, "fract'ol");
 	ptr->pict = mlx_new_image(ptr->mlx, 500, 500);
-	ptr->data_adrr = mlx_get_data_addr(ptr->pict, &(ptr->bits_per_pixel), &(ptr->size_line), &(ptr->endian));
+	ptr->data_adrr = mlx_get_data_addr(ptr->pict, &(ptr->bits)
+			, &(ptr->len), &(ptr->endian));
 	ft_set_color(ptr);
 	ft_julia_fract(ptr);
 	mlx_put_image_to_window(ptr->mlx, ptr->win, ptr->pict, 0, 0);
@@ -223,7 +205,7 @@ int		main(int argc, char **argv)
 	t_data *ptr;
 
 	ptr = (t_data *)malloc(sizeof(t_data));
-	if (argc == 2 && ft_strcmp(argv[1], "julia") == 0) 
+	if (argc == 2 && ft_strcmp(argv[1], "julia") == 0)
 		ft_set_julia_window(ptr);
 	else if (argc == 2 && ft_strcmp(argv[1], "mandelbrot") == 0)
 		ft_set_mandelbrot_window(ptr);
@@ -231,7 +213,8 @@ int		main(int argc, char **argv)
 		ft_set_newton_window(ptr);
 	else
 	{
-		ft_putstr("Illegal Option :\n\nOnly one Parameter :\njulia\nmandelbrot\nthird\n");
+		ft_putstr("Illegal Option :\n\nOnly one Parameter :\n");
+		ft_putstr("julia\nmandelbrot\nthird\n");
 	}
 	return (0);
 }
