@@ -6,7 +6,7 @@
 /*   By: pcrosnie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 13:25:31 by pcrosnie          #+#    #+#             */
-/*   Updated: 2016/04/11 10:55:06 by pcrosnie         ###   ########.fr       */
+/*   Updated: 2016/04/18 11:24:13 by pcrosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 typedef struct s_data
 {
+	float coeff_dir;
 	int exp;
 	int param;
 	void *mlx;
@@ -44,6 +45,7 @@ typedef struct s_data
 	double scale;
 }				t_data;
 
+void	ft_connect(float *x, float *y, t_data *ptr);
 int		ft_mouse_hook(int button, t_data *ptr);
 int 	ft_set_mouse2(int button, int a, int b, t_data *ptr);
 int		motion_notify2(int x, int y, t_data *ptr);

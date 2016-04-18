@@ -6,7 +6,7 @@
 /*   By: pcrosnie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/19 18:40:03 by pcrosnie          #+#    #+#             */
-/*   Updated: 2016/04/11 11:07:31 by pcrosnie         ###   ########.fr       */
+/*   Updated: 2016/04/18 11:27:04 by pcrosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,13 @@ int             ft_set_mouse2(int button, int a, int b, t_data *ptr)
 	y = b;
 	if (button == 4 || button == 7)
 	{
-		ptr->tmp_scale = ptr->scale;
-		ptr->scale -= (50 + ptr->exp);
-		ptr->exp -= 50 + ptr->exp2;
-		ptr->exp2 -= 30;
+		ptr->scale /= ptr->tmp_scale;
 		if (ptr->n < 40 && ptr->scale / 30 > 15)
 			ptr->n = ptr->scale / 30;
 	}
 	if (button == 5 || button == 6)
 	{
-		ptr->tmp_scale = ptr->scale;
-		ptr->scale += (50 + ptr->exp);
-		ptr->exp += 50 + ptr->exp2;
-		ptr->exp2 += 30;
+		ptr->scale *= ptr->tmp_scale;
 		if (ptr->n < 50 && ptr->scale / 30 > 15)
 			ptr->n = ptr->scale / 30;
 	}
@@ -64,13 +58,13 @@ int             ft_set_mouse2(int button, int a, int b, t_data *ptr)
 int		ft_key_hook(int button, t_data *ptr)
 {
 	if (button == 126)
-		ptr->centery += 30;
+		ptr->centery += (ptr->scale / 8);
 	if (button == 125)
-		ptr->centery -= 30;
+		ptr->centery -= (ptr->scale / 8);
 	if (button == 124)
-		ptr->centerx -= 30;
+		ptr->centerx -= (ptr->scale / 8);
 	if (button == 123)
-		ptr->centerx += 30;
+		ptr->centerx += (ptr->scale / 8);
 	if (button == 78)
 		ptr->n--;
 	if (button == 69)
@@ -118,7 +112,7 @@ void	ft_mandelbrot_fract(t_data *ptr)
 		cy = -2;
 		while (ptr->centery + (cy * ptr->scale) < 0)
 			cy += (1 / ptr->scale);
-		while (ptr->centery + (cy * ptr->scale) >= 0 && ptr->centery + (cy * ptr->scale) <= 500)
+		while (ptr->centery + (cy * ptr->scale) >= 0 && ptr->centery + (cy * ptr->scale) < 500)
 		{
 			ptr->green = 200;
 			mod = ft_set_suit(ptr->x, ptr->y, cx, cy, ptr->n);
@@ -141,11 +135,10 @@ void	ft_set_mandelbrot_window(t_data *ptr)
 	ptr->centerx = 250;
 	ptr->centery = 250;
 	ptr->red = 255;
+	ptr->tmp_scale = 2;
 	ptr->blue = 0;
 	ptr->green = 0;
 	ptr->n = 10;
-	ptr->exp = 0;
-	ptr->exp2 = 0;
 	ptr->param = 0;
 	ptr->mlx = mlx_init();
 	ptr->win = mlx_new_window(ptr->mlx, 500, 500, "fract'ol");

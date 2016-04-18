@@ -6,7 +6,7 @@
 /*   By: pcrosnie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/04 14:22:49 by pcrosnie          #+#    #+#             */
-/*   Updated: 2016/04/11 11:21:57 by pcrosnie         ###   ########.fr       */
+/*   Updated: 2016/04/18 11:16:53 by pcrosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,13 @@ void	ft_reset3(t_data *ptr)
 int             ft_key_hook2(int button, t_data *ptr)
 {
 	if (button == 126)
-		ptr->centery += 30;
+		ptr->centery += (ptr->scale / 4);
 	if (button == 125)
-		ptr->centery -= 30;
+		ptr->centery -= (ptr->scale / 4);
 	if (button == 124)
-		ptr->centerx -= 30;
+		ptr->centerx -= (ptr->scale / 4);
 	if (button == 123)
-		ptr->centerx += 30;
+		ptr->centerx += (ptr->scale / 4);
 	if (button == 78)
 		ptr->n--;
 	if (button == 69)
@@ -139,21 +139,11 @@ int        ft_set_mouse3(int button, int a, int b, t_data *ptr)
 	y = b;
 	if (button == 4 || button == 7)
 	{
-		ptr->tmp_scale = ptr->scale;
-		ptr->scale -= (50 + ptr->exp);
-		ptr->exp -= 50 + ptr->exp2;
-		ptr->exp2 -= 30;
-//		if (ptr->n < 40 && ptr->scale / 30 > 15)
-//			ptr->n = ptr->scale / 30;
+		ptr->scale /= ptr->tmp_scale;
 	}
 	if (button == 5 || button == 6)
 	{
-		ptr->tmp_scale = ptr->scale;
-		ptr->scale += (50 + ptr->exp);
-		ptr->exp += 50 + ptr->exp2;
-		ptr->exp2 += 30;
-//		if (ptr->n < 50 && ptr->scale / 30 > 15)
-//			ptr->n = ptr->scale / 30;
+		ptr->scale *= ptr->tmp_scale;
 	}
 	ptr->pict = mlx_new_image(ptr->mlx, 500, 500);
 	free(ptr->data_adrr);
@@ -174,8 +164,7 @@ void    ft_set_newton_window(t_data *ptr)
 	ptr->n = 4;
 	ptr->centerx = 250;
 	ptr->centery = 250;
-	ptr->exp = 0;
-	ptr->exp2 = 0;
+	ptr->tmp_scale = 2;
 	ptr->param = 0;
 	ptr->mlx = mlx_init();
 	ptr->win = mlx_new_window(ptr->mlx, 500, 500, "fract'ol");

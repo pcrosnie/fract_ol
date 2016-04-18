@@ -6,7 +6,7 @@
 /*   By: pcrosnie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/21 11:14:21 by pcrosnie          #+#    #+#             */
-/*   Updated: 2016/04/04 13:14:37 by pcrosnie         ###   ########.fr       */
+/*   Updated: 2016/04/18 11:28:09 by pcrosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ void	ft_julia_fract(t_data *ptr)
 	y = -2;
 	while (ptr->centerx + (x * ptr->scale) < 0)
 	 x += (1 / ptr->scale);
-	while (ptr->centerx + (x * ptr->scale) < 500 && ptr->centerx + (x * ptr->scale) >= 0)
+	while (ptr->centerx + (x * ptr->scale) < 499 && ptr->centerx + (x * ptr->scale) >= 0)
 	{
 		y = -2;
 		while (ptr->centery + (y * ptr->scale) < 0)
 			y += (1 / ptr->scale);
-		while (ptr->centery + (y * ptr->scale) < 500 && ptr->centery + (y * ptr->scale) >= 0)
+		while (ptr->centery + (y * ptr->scale) < 499 && ptr->centery + (y * ptr->scale) >= 0)
 		{
 //			ptr->red = 100;
 //			ptr->blue = 100;

@@ -6,7 +6,7 @@
 /*   By: pcrosnie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 13:24:58 by pcrosnie          #+#    #+#             */
-/*   Updated: 2016/04/11 10:54:54 by pcrosnie         ###   ########.fr       */
+/*   Updated: 2016/04/18 11:23:13 by pcrosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,13 +100,13 @@ int		ft_mouse_hook(int button, t_data *ptr)
 			ptr->param = 0;
 	}
 	if (button == 126)
-		ptr->centery += 20;
+		ptr->centery += 250;
 	if (button == 125)
-		ptr->centery -= 20;
+		ptr->centery -= 250;
 	if (button == 124)
-		ptr->centerx -= 20;
+		ptr->centerx -= 250;
 	if (button == 123)
-		ptr->centerx += 20;
+		ptr->centerx += 250;
 	if (button == 34)
 	{
 		ptr->scale += 50;
@@ -161,10 +161,7 @@ int		ft_set_mouse(int button, int a, int b, t_data *ptr)
 	y = b;
 	if (button == 4 || button == 7)
 	{
-		ptr->tmp_scale = ptr->scale;
-		ptr->scale -= (50 + ptr->exp);
-		ptr->exp -= 50 + ptr->exp2;
-		ptr->exp2 -= 30;
+		ptr->scale /= ptr->tmp_scale;
 		if (ptr->n < 40 && ptr->scale / 30 > 15)
 			ptr->n = ptr->scale / 30;
 /*		if (x < 500 && x > 0 && y < 500 && y > 0)
@@ -175,10 +172,7 @@ int		ft_set_mouse(int button, int a, int b, t_data *ptr)
 	}
 	if (button == 5 || button == 6)
 	{
-		ptr->tmp_scale = ptr->scale;
-		ptr->scale += (50 + ptr->exp);
-		ptr->exp += 50 + ptr->exp2;
-		ptr->exp2 += 30;
+		ptr->scale *= ptr->tmp_scale;
 		if (ptr->n < 50 && ptr->scale / 30 > 15)
 		ptr->n = ptr->scale / 30;
 /*		if (x < 500 && x > 0 && y < 500 && y > 0)
@@ -200,7 +194,7 @@ void	ft_set_julia_window(t_data *ptr)
 {
 	ptr->cx = -1;
 	ptr->cy = 0;
-	ptr->tmp_scale = 100;
+	ptr->tmp_scale = 2;
 	ptr->scale = 100;
 	ptr->red = 200;
 	ptr->green = 0;
@@ -208,7 +202,7 @@ void	ft_set_julia_window(t_data *ptr)
 	ptr->n = 10;
 	ptr->centerx = 250;
 	ptr->centery = 250;
-	ptr->exp = 0;
+	ptr->exp = 4;
 	ptr->exp2 = 0;
 	ptr->param = 0;
 	ptr->mlx = mlx_init();
@@ -229,11 +223,15 @@ int		main(int argc, char **argv)
 	t_data *ptr;
 
 	ptr = (t_data *)malloc(sizeof(t_data));
-	if (argc == 2 && argv[1][0] == '1') 
+	if (argc == 2 && ft_strcmp(argv[1], "julia") == 0) 
 		ft_set_julia_window(ptr);
-	else if (argc == 2 && argv[1][0] == '2')
+	else if (argc == 2 && ft_strcmp(argv[1], "mandelbrot") == 0)
 		ft_set_mandelbrot_window(ptr);
-	else if (argc == 2 && argv[1][0] == '3')
+	else if (argc == 2 && ft_strcmp(argv[1], "third") == 0)
 		ft_set_newton_window(ptr);
+	else
+	{
+		ft_putstr("Illegal Option :\n\nOnly one Parameter :\njulia\nmandelbrot\nthird\n");
+	}
 	return (0);
 }
