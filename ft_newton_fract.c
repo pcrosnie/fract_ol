@@ -6,45 +6,11 @@
 /*   By: pcrosnie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/04 14:22:49 by pcrosnie          #+#    #+#             */
-/*   Updated: 2016/04/18 14:57:54 by pcrosnie         ###   ########.fr       */
+/*   Updated: 2016/04/19 13:03:43 by pcrosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-
-double	ft_set_newton_suit(double x, double y, int lim)
-{
-	int		n;
-	double	tmpx;
-	double	retx;
-	double	rety;
-
-	n = 0;
-	retx = x;
-	rety = y;
-	while (n < lim)
-	{
-		tmpx = retx;
-		retx = (retx * retx * retx) - (rety * rety * retx)
-			- (2 * retx * rety * rety) + 1;
-		rety = (3 * tmpx * tmpx * rety) - (rety * rety * rety);
-		n++;
-	}
-	return (hypot(retx, rety));
-}
-
-void	ft_set_num(t_data *ptr, double x, double y, int n)
-{
-	double mod;
-
-	ptr->green = 200;
-	mod = ft_set_newton_suit(x, y, n);
-	if (mod <= 1)
-	{
-		ptr->green -= mod * 300;
-		ft_draw(ptr, ptr->gx + (x * ptr->sc), ptr->gy + (y * ptr->sc));
-	}
-}
 
 void	ft_newton_fract(t_data *ptr)
 {
@@ -75,26 +41,12 @@ void	ft_newton_fract(t_data *ptr)
 	}
 }
 
-void	ft_reset3(t_data *ptr)
-{
-	ptr->tmp_scale = 100;
-	ptr->sc = 100;
-	ptr->red = 200;
-	ptr->green = 0;
-	ptr->blue = 0;
-	ptr->n = 4;
-	ptr->gx = 250;
-	ptr->gy = 250;
-	ptr->exp = 0;
-	ptr->param = 0;
-}
-
 int		ft_key_hook2(int button, t_data *ptr)
 {
-	(button == 126) ? ptr->gy += (ptr->sc / 4) : 0;
-	(button == 125) ? ptr->gy -= (ptr->sc / 4) : 0;
-	(button == 124) ? ptr->gx -= (ptr->sc / 4) : 0;
-	(button == 123) ? ptr->gx += (ptr->sc / 4) : 0;
+	(button == 126) ? ptr->gy += 250 : 0;
+	(button == 125) ? ptr->gy -= 250 : 0;
+	(button == 124) ? ptr->gx -= 250 : 0;
+	(button == 123) ? ptr->gx += 250 : 0;
 	(button == 78) ? ptr->n-- : 0;
 	(button == 69) ? ptr->n++ : 0;
 	(button == 34) ? ptr->sc += 30 : 0;

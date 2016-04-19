@@ -6,27 +6,11 @@
 /*   By: pcrosnie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/19 18:40:03 by pcrosnie          #+#    #+#             */
-/*   Updated: 2016/04/18 16:46:08 by pcrosnie         ###   ########.fr       */
+/*   Updated: 2016/04/19 11:46:02 by pcrosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-
-int		motion_notify2(int x, int y, t_data *ptr)
-{
-	x = y;
-	if (ptr->param == 0)
-	{
-		ptr->pict = mlx_new_image(ptr->mlx, 500, 500);
-		free(ptr->data_adrr);
-		ptr->data_adrr = mlx_get_data_addr(ptr->pict, &(ptr->bits)
-				, &(ptr->len), &(ptr->endian));
-		ft_set_color(ptr);
-		ft_mandelbrot_fract(ptr);
-		mlx_put_image_to_window(ptr->mlx, ptr->win, ptr->pict, 0, 0);
-	}
-	return (0);
-}
 
 int		ft_set_mouse2(int button, int a, int b, t_data *ptr)
 {
@@ -58,22 +42,13 @@ int		ft_set_mouse2(int button, int a, int b, t_data *ptr)
 
 int		ft_key_hook(int button, t_data *ptr)
 {
+	(button == 15) ? ft_reset2(ptr) : 0;
 	(button == 126) ? ptr->gy += 250 : 0;
 	(button == 125) ? ptr->gy -= 250 : 0;
 	(button == 124) ? ptr->gx -= 250 : 0;
 	(button == 123) ? ptr->gx += 250 : 0;
 	(button == 78) ? ptr->n-- : 0;
 	(button == 69) ? ptr->n++ : 0;
-	if (button == 34)
-	{
-		ptr->sc += 30;
-		ptr->n = ptr->sc / 10;
-	}
-	if (button == 31)
-	{
-		ptr->sc -= 30;
-		ptr->n = ptr->sc / 10;
-	}
 	(button == 53) ? exit(0) : 0;
 	if (button == 49)
 		(ptr->param == 0) ? ptr->param = 1 : 0;

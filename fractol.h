@@ -6,7 +6,7 @@
 /*   By: pcrosnie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 13:25:31 by pcrosnie          #+#    #+#             */
-/*   Updated: 2016/04/18 16:24:48 by pcrosnie         ###   ########.fr       */
+/*   Updated: 2016/04/19 13:05:31 by pcrosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,12 @@ typedef struct		s_data
 	double	sc;
 }					t_data;
 
+void				ft_reset3(t_data *ptr);
+void				ft_set_num(t_data *ptr, double x, double y, int n);
+double				ft_set_newton_suit(double x, double y, int lim);
+void				ft_reset2(t_data *ptr);
+void				ft_reset(t_data *ptr);
+void				ft_set_hook(t_data *ptr, int button);
 int					ft_mouse_hook(int button, t_data *ptr);
 int					ft_set_mouse2(int button, int a, int b, t_data *ptr);
 int					motion_notify2(int x, int y, t_data *ptr);

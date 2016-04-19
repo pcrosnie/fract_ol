@@ -6,97 +6,11 @@
 /*   By: pcrosnie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 13:24:58 by pcrosnie          #+#    #+#             */
-/*   Updated: 2016/04/18 17:03:50 by pcrosnie         ###   ########.fr       */
+/*   Updated: 2016/04/19 11:44:07 by pcrosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-#include <stdio.h>
-
-void	ft_draw(t_data *ptr, float x, float y)
-{
-	int nb;
-
-	nb = (x * ptr->bits) / 8 + (y * ptr->len);
-	ptr->data_adrr[nb] = ptr->red;
-	ptr->data_adrr[nb + 1] = ptr->green;
-	ptr->data_adrr[nb + 2] = ptr->blue;
-}
-
-double	ft_module(double x, double y, float cx, float cy)
-{
-	double nb;
-
-	nb = ((x * x) - (y * y) + cx) * ((x * x) - (y * y) + cx)
-		+ ((2 * x * y + cy) * (2 * x * y + cy));
-	return (nb);
-}
-
-double	ft_set_suit(t_data *ptr, int lim)
-{
-	int		n;
-	double	tmpx;
-	double	retx;
-	double	rety;
-
-	n = 0;
-	retx = ptr->x;
-	rety = ptr->y;
-	while (n < lim)
-	{
-		tmpx = retx;
-		retx = (retx * retx) - (rety * rety) + ptr->cx;
-		rety = (2 * tmpx * rety + ptr->cy);
-		n++;
-	}
-	return (hypot((retx * retx) - (rety * rety) + ptr->cx
-				, 2 * retx * rety + ptr->cy));
-}
-
-void	ft_set_color(t_data *ptr)
-{
-	if (ptr->blue > 230)
-		ptr->blue = 0;
-	else
-		ptr->blue += 20;
-	if (ptr->red > 230)
-		ptr->red = 0;
-	else
-		ptr->red += 20;
-}
-
-void	ft_reset(t_data *ptr)
-{
-	ptr->cx = -1;
-	ptr->cy = 0;
-	ptr->tmp_scale = 100;
-	ptr->sc = 100;
-	ptr->red = 200;
-	ptr->green = 0;
-	ptr->blue = 0;
-	ptr->n = 15;
-	ptr->gx = 250;
-	ptr->gy = 250;
-	ptr->exp = 0;
-}
-
-void	ft_set_hook(t_data *ptr, int button)
-{
-	(button == 126) ? ptr->gy += 250 : 0;
-	(button == 125) ? ptr->gy -= 250 : 0;
-	(button == 124) ? ptr->gx -= 250 : 0;
-	(button == 123) ? ptr->gx += 250 : 0;
-	if (button == 34)
-	{
-		ptr->sc += 50;
-		(ptr->n < 50) ? ptr->n += 1 : 0;
-	}
-	if (button == 31)
-	{
-		ptr->sc -= 50;
-		ptr->n -= 1;
-	}
-}
 
 int		ft_mouse_hook(int button, t_data *ptr)
 {
